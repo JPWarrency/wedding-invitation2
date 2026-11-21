@@ -1564,6 +1564,21 @@ body {
     .family-card .address-province {
         display: block;
         white-space: normal;
+        overflow-wrap: normal;
+        word-break: normal;
+    }
+
+    .family-card .address-line {
+        max-width: 100%;
+        font-size: clamp(0.48rem, 1.9vw, 0.62rem);
+        line-height: 1.45;
+        white-space: nowrap;
+    }
+
+    .family-card .address-province {
+        font-size: clamp(0.48rem, 1.9vw, 0.62rem);
+        line-height: 1.45;
+        white-space: nowrap;
     }
 
     .family-card .address-province::before {
