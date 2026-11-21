@@ -1477,12 +1477,32 @@ body {
     }
 
     .family-info {
-        flex-direction: column;
-        gap: 2rem;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 0.65rem;
+        flex-wrap: nowrap;
     }
 
     .family-card {
-        max-width: 100%;
+        flex: 1 1 50%;
+        max-width: 50%;
+        min-width: 0;
+        padding: 0.35rem;
+    }
+
+    .family-card .couple-desc {
+        font-size: clamp(0.72rem, 2.7vw, 0.92rem);
+        line-height: 1.55;
+    }
+
+    .family-card .address-line,
+    .family-card .address-province {
+        display: block;
+        white-space: normal;
+    }
+
+    .family-card .address-province::before {
+        content: '';
     }
 
     .couple-cards-row {
