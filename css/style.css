@@ -1091,63 +1091,91 @@ body {
 }
 
 /* ============================================
-   GALLERY SECTION - Masonry Style
+   GALLERY SECTION - Album Slider
    ============================================ */
 .gallery-section {
-    padding: 4rem 0;
-}
-
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-    max-width: 920px;
+    padding: 3.5rem 0 4rem;
+    max-width: 760px;
     margin: 0 auto;
 }
 
-.gallery-item {
+.gallery-script-title {
+    margin: 0 0 1.8rem;
+    color: #b86579;
+    font-family: 'Dancing Script', 'Playfair Display', cursive;
+    font-size: clamp(2rem, 6vw, 3.25rem);
+    font-style: italic;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0;
+}
+
+.gallery-slider {
     position: relative;
+}
+
+.gallery-main-frame {
+    width: 100%;
     aspect-ratio: 4 / 5;
+    max-height: 720px;
     overflow: hidden;
-    border-radius: 5px;
-    cursor: pointer;
-    background: var(--white);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
+    background: #fff;
 }
 
-.gallery-item:hover {
-    transform: scale(1.02);
-}
-
-.gallery-placeholder {
+.gallery-main-image {
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: var(--blush);
-    color: var(--primary-color);
-    font-size: 3rem;
-    transition: all 0.3s ease;
-}
-
-.gallery-item:hover .gallery-placeholder {
-    background: var(--primary-color);
-    color: var(--white);
-}
-
-.gallery-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
     display: block;
-    transition: transform 0.3s ease;
+    object-fit: cover;
+    transition: opacity 0.18s ease, transform 0.35s ease;
 }
 
-.gallery-item:hover .gallery-img {
-    transform: scale(1.1);
+.gallery-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 4;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.86);
+    color: #777;
+    cursor: pointer;
+    transform: translateY(-50%);
+    box-shadow: 0 4px 18px rgba(44, 44, 44, 0.14);
 }
+
+.gallery-arrow-prev { left: 14px; }
+.gallery-arrow-next { right: 14px; }
+
+.gallery-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.gallery-thumbnail {
+    min-width: 0;
+    aspect-ratio: 1;
+    padding: 0;
+    overflow: hidden;
+    border: 2px solid transparent;
+    background: #fff;
+    cursor: pointer;
+}
+
+.gallery-thumbnail img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.gallery-thumbnail.active {
+    border-color: #c9a86a;
+}
+
 
 /* ============================================
    RSVP SECTION
@@ -1467,6 +1495,28 @@ body {
    RESPONSIVE DESIGN
    ============================================ */
 @media (max-width: 768px) {
+    .gallery-section {
+        max-width: 620px;
+        padding-inline: 0.5rem;
+    }
+
+    .gallery-thumbnails {
+        gap: 5px;
+        overflow-x: auto;
+        grid-template-columns: repeat(9, 70px);
+        justify-content: start;
+        scrollbar-width: none;
+    }
+
+    .gallery-thumbnails::-webkit-scrollbar {
+        display: none;
+    }
+
+    .gallery-arrow {
+        width: 38px;
+        height: 38px;
+    }
+
     .couple-section {
         gap: 2rem;
     }

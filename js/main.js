@@ -208,18 +208,58 @@ async function sendRSVPToServer(data) {
 */
 
 // ============================================
-// GALLERY LIGHTBOX
+// GALLERY SLIDER
 // ============================================
-document.querySelectorAll('.gallery-item').forEach(item => {
-    item.addEventListener('click', () => {
-        const img = item.querySelector('img');
-        if (img) {
-            document.getElementById('lightboxImg').src = img.src;
-        }
-        document.getElementById('lightbox').classList.remove('hidden');
+const galleryMainImage = document.getElementById('galleryMainImage');
+const galleryThumbnails = [...document.querySelectorAll('.gallery-thumbnail')];
+let galleryIndex = 0;
+
+function showGalleryImage(index) {
+    if (!galleryMainImage || galleryThumbnails.length === 0) return;
+
+    galleryIndex = (index + galleryThumbnails.length) % galleryThumbnails.length;
+    const thumbnail = galleryThumbnails[galleryIndex];
+    const image = thumbnail.querySelector('img');
+
+    galleryMainImage.style.opacity = '0';
+    galleryMainImage.style.transform = 'scale(0.985)';
+
+    window.setTimeout(() => {
+        galleryMainImage.src = image.src;
+        galleryMainImage.alt = `Khoảnh khắc cưới ${galleryIndex + 1}`;
+        galleryMainImage.style.opacity = '1';
+        galleryMainImage.style.transform = 'scale(1)';
+    }, 150);
+
+    galleryThumbnails.forEach((item, itemIndex) => {
+        item.classList.toggle('active', itemIndex === galleryIndex);
     });
+
+    thumbnail.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
+
+document.querySelector('.gallery-arrow-prev')?.addEventListener('click', () => showGalleryImage(galleryIndex - 1));
+document.querySelector('.gallery-arrow-next')?.addEventListener('click', () => showGalleryImage(galleryIndex + 1));
+
+galleryThumbnails.forEach((thumbnail, index) => {
+    thumbnail.addEventListener('click', () => showGalleryImage(index));
 });
 
+let galleryTouchStart = 0;
+document.getElementById('gallerySlider')?.addEventListener('touchstart', event => {
+    galleryTouchStart = event.changedTouches[0].screenX;
+}, { passive: true });
+
+document.getElementById('gallerySlider')?.addEventListener('touchend', event => {
+    const distance = event.changedTouches[0].screenX - galleryTouchStart;
+    if (Math.abs(distance) > 45) {
+        showGalleryImage(galleryIndex + (distance < 0 ? 1 : -1));
+    }
+}, { passive: true });
+
+// ============================================
+// LIGHTBOX
+// ============================================
 function closeLightbox() {
     document.getElementById('lightbox').classList.add('hidden');
 }

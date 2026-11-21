@@ -252,17 +252,31 @@
 
         <!-- Gallery -->
         <section class="gallery-section">
-            <h2 class="section-title">Khoảnh Khắc</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item"><img src="images/anh%20khoanh%20khac%201.jpg" alt="Khoảnh khắc cưới 1" class="gallery-img"></div>
-                <div class="gallery-item"><img src="images/anh%20khoanh%20khac%202.jpg" alt="Khoảnh khắc cưới 2" class="gallery-img"></div>
-                <div class="gallery-item"><img src="images/anh%20khoanh%20khac%203.jpg" alt="Khoảnh khắc cưới 3" class="gallery-img"></div>
-                <div class="gallery-item"><img src="images/anh%20khoanh%20khac%204.jpg" alt="Khoảnh khắc cưới 4" class="gallery-img"></div>
-                <div class="gallery-item"><img src="images/anh%20khoanh%20khac%205.jpg" alt="Khoảnh khắc cưới 5" class="gallery-img"></div>
-                <div class="gallery-item"><img src="images/anh%20khoanh%20khac%206.jpg" alt="Khoảnh khắc cưới 6" class="gallery-img"></div>
-                <div class="gallery-item"><img src="images/anh%20khoanh%20khac%207.jpg" alt="Khoảnh khắc cưới 7" class="gallery-img"></div>
-                <div class="gallery-item"><img src="images/anh%20khoanh%20khac%208.jpg" alt="Khoảnh khắc cưới 8" class="gallery-img"></div>
-                <div class="gallery-item"><img src="images/anh%20khoanh%20khac%209.jpg" alt="Khoảnh khắc cưới 9" class="gallery-img"></div>
+            <h2 class="gallery-script-title">Every picture tells a story.</h2>
+            <div class="gallery-slider" id="gallerySlider">
+                <button class="gallery-arrow gallery-arrow-prev" type="button" aria-label="Ảnh trước">
+                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                </button>
+
+                <div class="gallery-main-frame">
+                    <img id="galleryMainImage" src="images/anh%20khoanh%20khac%201.jpg" alt="Khoảnh khắc cưới 1" class="gallery-main-image">
+                </div>
+
+                <button class="gallery-arrow gallery-arrow-next" type="button" aria-label="Ảnh tiếp theo">
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="gallery-thumbnails" id="galleryThumbnails">
+                <button class="gallery-thumbnail active" type="button" data-index="0" aria-label="Xem ảnh 1"><img src="images/anh%20khoanh%20khac%201.jpg" alt=""></button>
+                <button class="gallery-thumbnail" type="button" data-index="1" aria-label="Xem ảnh 2"><img src="images/anh%20khoanh%20khac%202.jpg" alt=""></button>
+                <button class="gallery-thumbnail" type="button" data-index="2" aria-label="Xem ảnh 3"><img src="images/anh%20khoanh%20khac%203.jpg" alt=""></button>
+                <button class="gallery-thumbnail" type="button" data-index="3" aria-label="Xem ảnh 4"><img src="images/anh%20khoanh%20khac%204.jpg" alt=""></button>
+                <button class="gallery-thumbnail" type="button" data-index="4" aria-label="Xem ảnh 5"><img src="images/anh%20khoanh%20khac%205.jpg" alt=""></button>
+                <button class="gallery-thumbnail" type="button" data-index="5" aria-label="Xem ảnh 6"><img src="images/anh%20khoanh%20khac%206.jpg" alt=""></button>
+                <button class="gallery-thumbnail" type="button" data-index="6" aria-label="Xem ảnh 7"><img src="images/anh%20khoanh%20khac%207.jpg" alt=""></button>
+                <button class="gallery-thumbnail" type="button" data-index="7" aria-label="Xem ảnh 8"><img src="images/anh%20khoanh%20khac%208.jpg" alt=""></button>
+                <button class="gallery-thumbnail" type="button" data-index="8" aria-label="Xem ảnh 9"><img src="images/anh%20khoanh%20khac%209.jpg" alt=""></button>
             </div>
         </section>
 
