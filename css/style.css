@@ -348,8 +348,36 @@ body {
     max-width: 760px;
     margin: 0 auto;
     text-align: center;
-    padding: 2rem 0 3rem;
+    padding: 2rem 0 0.5rem;
     position: relative;
+}
+
+.invite-save-date-lockup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.invite-save-date-image {
+    display: block;
+    width: clamp(140px, 30vw, 190px);
+    height: auto;
+}
+
+.invite-tulip-photo {
+    width: 42px;
+    height: 58px;
+    flex: 0 0 auto;
+    border-radius: 50% 50% 48% 48%;
+    object-fit: cover;
+    object-position: center 22%;
+    mix-blend-mode: multiply;
+}
+
+.invite-tulip-photo-right {
+    transform: scaleX(-1);
 }
 
 .invite-kicker,
@@ -379,7 +407,14 @@ body {
 }
 
 .invite-intro {
-    margin-bottom: 2.7rem;
+    margin-bottom: 0.5rem;
+}
+
+.invite-details {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .invite-couple-names {
@@ -453,7 +488,7 @@ body {
     margin-bottom: 0.45rem;
     color: #46523f;
     font-family: 'Playfair Display', serif;
-    font-size: clamp(1.05rem, 3vw, 1.4rem);
+    font-size: clamp(1.15rem, 3.2vw, 1.5rem);
     font-weight: 700;
     text-transform: uppercase;
 }
@@ -462,7 +497,7 @@ body {
     margin-bottom: 1.1rem;
     color: #686a62;
     font-family: 'Playfair Display', serif;
-    font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+    font-size: clamp(1.02rem, 2.7vw, 1.22rem);
 }
 
 .invite-directions {
@@ -471,7 +506,7 @@ body {
     gap: 0.7rem;
     color: #46523f;
     font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     text-decoration: none;
     transition: color 0.2s ease, transform 0.2s ease;
 }
@@ -490,7 +525,7 @@ body {
     margin: 0 auto;
     color: #66655e;
     font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     line-height: 1.75;
 }
 
@@ -503,7 +538,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: 3rem;
-    padding: 4rem 0;
+    padding: 1.5rem 0 4rem;
     flex-wrap: wrap;
 }
 
@@ -1561,6 +1596,7 @@ body {
     }
 
     .family-card .family-address {
+        font-size: clamp(0.58rem, 2vw, 0.68rem);
         line-height: 1.05;
     }
 

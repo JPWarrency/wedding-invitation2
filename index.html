@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thiệp Mời Đám Cưới - Quốc Phong & Phương Anh</title>
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -20,10 +20,6 @@
     <!-- Hero Section -->
     <section id="hero" class="hero">
         <div class="hero-content">
-            <div class="hero-heading">
-                <p class="hero-subtitle">Trân trọng kính mời</p>
-                <h1 class="hero-title">Bạn <span class="amp">&amp;</span> Người Thương</h1>
-            </div>
             <button class="envelope-open" type="button" onclick="openInvitation()" aria-label="Chạm vào con dấu để mở thiệp mời">
                 <span class="envelope-fold envelope-fold-top" aria-hidden="true"></span>
                 <span class="envelope-fold envelope-fold-left" aria-hidden="true"></span>
@@ -44,35 +40,13 @@
 
         <!-- Header -->
         <header class="header invitation-header">
+            <div class="invite-save-date-lockup">
+                <img class="invite-save-date-image" src="images/save-the-date-transparent.png" alt="Save the date">
+            </div>
             <p class="invite-kicker">Trân trọng kính mời</p>
             <h2 class="invite-recipient">Bạn và Người Thương</h2>
             <p class="invite-intro">tới dự Lễ Thành Hôn chung vui cùng chúng tôi</p>
 
-            <div class="invite-couple-names">
-                <span>QUỐC PHONG</span>
-                <em>and</em>
-                <span>PHƯƠNG ANH</span>
-            </div>
-
-            <div class="invite-date-block">
-                <span class="invite-time">10 GIỜ 45</span>
-                <time class="invite-date" datetime="2026-10-25">
-                    <span>20</span>
-                    <span>12</span>
-                    <span>2026</span>
-                </time>
-                <span class="invite-weekday">CHỦ NHẬT</span>
-            </div>
-
-            <p class="invite-lunar-date">(Âm lịch, ngày 12 tháng 11 năm Bính Ngọ)</p>
-            <div class="invite-venue">
-                <p class="invite-venue-name">TẠI: SÂN VẬN ĐỘNG TIẾN THỦY</p>
-                <p class="invite-venue-address"><span class="address-line">Thôn Tiến Mỹ, Xã Quỳnh Phú</span><span class="address-province">Tỉnh Nghệ An</span></p>
-                <a class="invite-directions" href="#" onclick="openMap('19.117505684532148, 105.7112220751147')">
-                    <i class="fas fa-map-marker-alt" aria-hidden="true"></i> CHỈ ĐƯỜNG
-                </a>
-            </div>
-            <p class="invite-message">Chúng tôi tìm thấy nhau giữa những ngày rất đỗi bình thường, và từ đó mỗi ngày đều trở nên đặc biệt hơn. Nay chúng tôi cùng nhau bắt đầu một chặng đường mới. Sự hiện diện và lời chúc phúc của quý vị sẽ là món quà ý nghĩa nhất trong ngày trọng đại này.</p>
         </header>
 
         <!-- Couple Names -->
@@ -88,7 +62,7 @@
                     <h3 class="family-title">Nhà Trai</h3>
                     <p class="couple-desc">Ông: Trương Đắc Thảo</p>
                     <p class="couple-desc">Bà: Nguyễn Thị Định</p>
-                    <p class="couple-desc family-address"><span class="family-address-first">Địa chỉ: Thôn Tiến Mỹ, Xã</span><br><span class="family-address-second">Quỳnh Phú, Tỉnh Nghệ An</span></p>
+                    <p class="couple-desc family-address"><span class="family-address-first">Địa chỉ: Thôn Tiến Mỹ,</span><br><span class="family-address-second">Xã Quỳnh Phú, Tỉnh Nghệ An</span><br><span class="family-address-former">(Xã Quỳnh Nghĩa cũ)</span></p>
                 </div>
                 <div class="couple-divider family-divider">
                     <span class="heart-icon">❤</span>
@@ -97,8 +71,36 @@
                     <h3 class="family-title">Nhà Gái</h3>
                     <p class="couple-desc">Ông: Hồ Quốc Huy</p>
                     <p class="couple-desc">Bà: Tô Thị Tới</p>
-                    <p class="couple-desc family-address"><span class="family-address-first">Địa chỉ: Thôn 7 cũ, Xã</span><br><span class="family-address-second">Quỳnh Phú, Tỉnh Nghệ An</span></p>
+                    <p class="couple-desc family-address"><span class="family-address-first">Địa chỉ: Thôn 7 cũ,</span><br><span class="family-address-second">Xã Quỳnh Phú, Tỉnh Nghệ An</span><br><span class="family-address-former">(Xã Tiến Thuỷ cũ)</span></p>
                 </div>
+            </div>
+
+            <div class="invite-details">
+                <div class="invite-couple-names">
+                    <span>QUỐC PHONG</span>
+                    <em>&</em>
+                    <span>PHƯƠNG ANH</span>
+                </div>
+
+                <div class="invite-date-block">
+                    <span class="invite-time">10 GIỜ 45</span>
+                    <time class="invite-date" datetime="2026-10-25">
+                        <span>20</span>
+                        <span>12</span>
+                        <span>2026</span>
+                    </time>
+                    <span class="invite-weekday">CHỦ NHẬT</span>
+                </div>
+
+                <p class="invite-lunar-date">(Âm lịch, ngày 12 tháng 11 năm Bính Ngọ)</p>
+                <div class="invite-venue">
+                    <p class="invite-venue-name">TẠI: SÂN VẬN ĐỘNG TIẾN THỦY</p>
+                    <p class="invite-venue-address"><span class="address-line">Thôn Tiến Mỹ, Xã Quỳnh Phú</span><span class="address-province">Tỉnh Nghệ An</span></p>
+                    <a class="invite-directions" href="#" onclick="openMap('19.117505684532148, 105.7112220751147')">
+                        <i class="fas fa-map-marker-alt" aria-hidden="true"></i> CHỈ ĐƯỜNG
+                    </a>
+                </div>
+                <p class="invite-message">Chúng tôi tìm thấy nhau giữa những ngày rất đỗi bình thường, và từ đó mỗi ngày đều trở nên đặc biệt hơn. Nay chúng tôi cùng nhau bắt đầu một chặng đường mới. Sự hiện diện và lời chúc phúc của quý vị sẽ là món quà ý nghĩa nhất trong ngày trọng đại này.</p>
             </div>
 
             <!-- Groom & Bride Photos -->
@@ -138,7 +140,7 @@
                 <article class="event-card">
                     <div class="event-time-block">
                         <time class="event-time">08:00</time>
-                        <span class="event-date">15/12/2026</span>
+                        <span class="event-date">16/12/2026</span>
                     </div>
                     <div class="event-details">
                         <h3>Lễ Vu Quy</h3>
@@ -198,8 +200,8 @@
                     <span class="calendar-day">12</span>
                     <span class="calendar-day">13</span>
                     <span class="calendar-day">14</span>
-                    <span class="calendar-day vu-quy-day" title="15/12/2026 — Lễ Vu Quy">15</span>
-                    <span class="calendar-day">16</span>
+                    <span class="calendar-day">15</span>
+                    <span class="calendar-day vu-quy-day" title="16/12/2026 — Lễ Vu Quy">16</span>
                     <span class="calendar-day">17</span>
                     <span class="calendar-day">18</span>
                     <span class="calendar-day">19</span>
@@ -218,7 +220,7 @@
                 </div>
                 <div class="calendar-legend">
                     <span class="legend-item">
-                        <span class="legend-dot vu-quy-dot"></span> 15/12 — Lễ Vu Quy
+                        <span class="legend-dot vu-quy-dot"></span> 16/12 — Lễ Vu Quy
                     </span>
                     <span class="legend-item">
                         <span class="legend-dot wedding-dot"></span> 20/12 — Lễ Thành Hôn
