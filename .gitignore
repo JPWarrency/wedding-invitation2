@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Audio files (large)
+audio/*.mp3
+audio/*.wav
+
+# Images (large)
+images/*.jpg
+images/*.jpeg
+images/*.png
+images/*.gif
+
+# Keep placeholder files
+!images/.gitkeep
+!audio/.gitkeep
