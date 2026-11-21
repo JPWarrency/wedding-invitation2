@@ -300,9 +300,6 @@ const revealSelector = [
     '.gallery-item',
     '.rsvp-note',
     '.rsvp-form',
-    '.giftbox-note',
-    '.giftbox-icon',
-    '.giftbox-qr-card',
     '.footer'
 ].join(', ');
 
@@ -311,8 +308,7 @@ const revealGroups = [
     '.couple-card',
     '.event-card',
     '.countdown-item',
-    '.gallery-item',
-    '.giftbox-qr-card'
+    '.gallery-item'
 ];
 
 document.querySelectorAll(revealSelector).forEach(el => el.classList.add('scroll-animation'));
@@ -377,14 +373,6 @@ function shareInvitation() {
             alert('Link đã được sao chép!');
         });
     }
-}
-
-// ============================================
-// GIFT BOX TOGGLE
-// ============================================
-function toggleGiftBox() {
-    const content = document.getElementById('giftboxContent');
-    content.classList.toggle('hidden');
 }
 
 // ============================================
