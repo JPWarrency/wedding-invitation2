@@ -1560,12 +1560,15 @@ body {
         line-height: 1.55;
     }
 
-    .family-card .address-line,
-    .family-card .address-province {
+    .family-card .family-address {
+        line-height: 1.05;
+    }
+
+    .family-card .family-address span {
         display: block;
-        white-space: normal;
-        overflow-wrap: normal;
-        word-break: normal;
+        white-space: nowrap;
+        font-size: inherit;
+        line-height: inherit;
     }
 
     .family-card .address-line {
