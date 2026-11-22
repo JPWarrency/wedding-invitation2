@@ -143,11 +143,11 @@ function submitRSVP(event) {
     event.preventDefault();
     
     const form = document.getElementById('rsvpForm');
-    const name = document.getElementById('name').value;
-    const phone = document.getElementById('phone').value;
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
     const attendance = document.getElementById('attendance').value;
     const guests = document.getElementById('guests').value;
-    const message = document.getElementById('message').value;
+    const message = document.getElementById('message').value.trim();
 
     // Validate form
     if (!name || !phone || !attendance) {
@@ -165,12 +165,18 @@ function submitRSVP(event) {
         timestamp: new Date().toISOString()
     };
 
-    // Save to localStorage (for demo)
+    // Save locally and immediately refresh the guest wishes below the form.
     saveRSVP(rsvpData);
+    renderRSVPs();
+    form.reset();
 
-    // Show success message
-    form.classList.add('hidden');
-    document.getElementById('rsvpSuccess').classList.remove('hidden');
+    // Keep the form available for other guests and show brief confirmation.
+    const successMessage = document.getElementById('rsvpSuccess');
+    successMessage.classList.remove('hidden');
+    window.clearTimeout(window.rsvpSuccessTimeout);
+    window.rsvpSuccessTimeout = window.setTimeout(() => {
+        successMessage.classList.add('hidden');
+    }, 4000);
 
     // Optional: Send to backend/email service
     // sendRSVPToServer(rsvpData);
@@ -178,10 +184,61 @@ function submitRSVP(event) {
 
 // Save RSVP to localStorage
 function saveRSVP(data) {
-    let rsvps = JSON.parse(localStorage.getItem('weddingRSVPs') || '[]');
+    const rsvps = getStoredRSVPs();
     rsvps.push(data);
-    localStorage.setItem('weddingRSVPs', JSON.stringify(rsvps));
-    console.log('RSVP saved:', data);
+
+    try {
+        localStorage.setItem('weddingRSVPs', JSON.stringify(rsvps));
+    } catch (error) {
+        console.error('Unable to save RSVP:', error);
+    }
+}
+
+function getStoredRSVPs() {
+    try {
+        const savedRSVPs = JSON.parse(localStorage.getItem('weddingRSVPs') || '[]');
+        return Array.isArray(savedRSVPs) ? savedRSVPs : [];
+    } catch (error) {
+        console.warn('Unable to read saved RSVPs:', error);
+        return [];
+    }
+}
+
+function renderRSVPs() {
+    const wishList = document.getElementById('wishList');
+    if (!wishList) return;
+
+    const wishes = getStoredRSVPs()
+        .filter((rsvp) => rsvp && typeof rsvp.message === 'string' && rsvp.message.trim())
+        .reverse();
+
+    wishList.replaceChildren();
+
+    if (wishes.length === 0) {
+        const emptyMessage = document.createElement('p');
+        emptyMessage.className = 'wish-empty';
+        emptyMessage.textContent = 'Lời chúc của khách mời sẽ hiển thị tại đây.';
+        wishList.appendChild(emptyMessage);
+        return;
+    }
+
+    wishes.forEach((rsvp) => {
+        const card = document.createElement('article');
+        card.className = 'wish-card';
+
+        const author = document.createElement('strong');
+        author.className = 'wish-author';
+        author.textContent = typeof rsvp.name === 'string' && rsvp.name.trim()
+            ? rsvp.name.trim()
+            : 'Khách mời';
+
+        const message = document.createElement('p');
+        message.className = 'wish-message';
+        message.textContent = rsvp.message.trim();
+
+        card.append(author, message);
+        wishList.appendChild(card);
+    });
 }
 
 // Optional: Send RSVP to server (uncomment and configure)
@@ -379,6 +436,8 @@ function shareInvitation() {
 // INITIALIZATION
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+    renderRSVPs();
+
     // Add floating heart styles
     const style = document.createElement('style');
     style.textContent = `
