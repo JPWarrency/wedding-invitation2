@@ -5,6 +5,8 @@
 // Configuration - Update these values
 const CONFIG = {
     weddingDate: '2026-12-20T10:00:00+07:00', // Wedding date and time
+    // Paste the deployed Google Apps Script Web App URL here to enable shared RSVPs.
+    rsvpEndpoint: 'https://script.google.com/macros/s/AKfycbx95yoq5NBTO4Mxdcj4n9WvtXUDrVmQkypYvBuSWtDKfiBCAiAIZzwybFvIJi6C_AGc/exec',
     coupleNames: {
         groom: 'Quốc Phong',
         bride: 'Phương Anh'
@@ -139,9 +141,9 @@ function openMap(location) {
 // ============================================
 // RSVP FORM
 // ============================================
-function submitRSVP(event) {
+async function submitRSVP(event) {
     event.preventDefault();
-    
+
     const form = document.getElementById('rsvpForm');
     const name = document.getElementById('name').value.trim();
     const phone = document.getElementById('phone').value.trim();
@@ -165,21 +167,52 @@ function submitRSVP(event) {
         timestamp: new Date().toISOString()
     };
 
-    // Save locally and immediately refresh the guest wishes below the form.
-    saveRSVP(rsvpData);
-    renderRSVPs();
-    form.reset();
+    const submitButton = form.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
 
-    // Keep the form available for other guests and show brief confirmation.
-    const successMessage = document.getElementById('rsvpSuccess');
-    successMessage.classList.remove('hidden');
-    window.clearTimeout(window.rsvpSuccessTimeout);
-    window.rsvpSuccessTimeout = window.setTimeout(() => {
-        successMessage.classList.add('hidden');
-    }, 4000);
+    try {
+        if (CONFIG.rsvpEndpoint) {
+            await sendRSVPToServer({
+                ...rsvpData,
+                website: document.getElementById('website').value
+            });
 
-    // Optional: Send to backend/email service
-    // sendRSVPToServer(rsvpData);
+            const newWish = {
+                name: rsvpData.name,
+                message: rsvpData.message,
+                timestamp: rsvpData.timestamp
+            };
+            sharedRSVPs = [newWish, ...sharedRSVPs];
+            renderRSVPs(sharedRSVPs);
+
+            // Reconcile the optimistic entry with the shared sheet after the write.
+            window.setTimeout(() => {
+                loadSharedRSVPs().then((wishes) => {
+                    sharedRSVPs = wishes;
+                    renderRSVPs(sharedRSVPs);
+                }).catch((error) => console.warn('Could not refresh shared wishes:', error));
+            }, 1000);
+        } else {
+            saveRSVP(rsvpData);
+            renderRSVPs(getStoredRSVPs().reverse());
+        }
+
+        form.reset();
+
+        // Keep the form available for other guests and show brief confirmation.
+        const successMessage = document.getElementById('rsvpSuccess');
+        successMessage.classList.remove('hidden');
+        window.clearTimeout(window.rsvpSuccessTimeout);
+        window.rsvpSuccessTimeout = window.setTimeout(() => {
+            successMessage.classList.add('hidden');
+        }, 4000);
+    } catch (error) {
+        console.error('Unable to submit RSVP:', error);
+        alert('Chưa gửi được xác nhận. Vui lòng kiểm tra kết nối và thử lại.');
+    } finally {
+        submitButton.disabled = false;
+    }
+
 }
 
 // Save RSVP to localStorage
@@ -204,20 +237,97 @@ function getStoredRSVPs() {
     }
 }
 
-function renderRSVPs() {
+let sharedRSVPs = [];
+
+function sendRSVPToServer(data) {
+    const body = new URLSearchParams({
+        action: 'submit',
+        name: data.name,
+        phone: data.phone,
+        attendance: data.attendance,
+        guests: data.guests,
+        message: data.message,
+        website: data.website || ''
+    });
+
+    // Apps Script is cross-origin; no-cors sends a simple form-encoded request.
+    return fetch(CONFIG.rsvpEndpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        body
+    });
+}
+
+function loadSharedRSVPs() {
+    return new Promise((resolve, reject) => {
+        const callbackName = `__rsvpCallback_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+        const script = document.createElement('script');
+        const endpoint = new URL(CONFIG.rsvpEndpoint);
+        let timeoutId;
+
+        const cleanup = () => {
+            window.clearTimeout(timeoutId);
+            script.remove();
+            delete window[callbackName];
+        };
+
+        window[callbackName] = (wishes) => {
+            cleanup();
+            if (!Array.isArray(wishes)) {
+                reject(new Error('Invalid wishes response.'));
+                return;
+            }
+            resolve(wishes);
+        };
+
+        script.onerror = () => {
+            cleanup();
+            reject(new Error('Could not load shared wishes.'));
+        };
+
+        endpoint.searchParams.set('action', 'list');
+        endpoint.searchParams.set('callback', callbackName);
+        endpoint.searchParams.set('_', String(Date.now()));
+        script.src = endpoint.toString();
+        script.async = true;
+
+        timeoutId = window.setTimeout(() => {
+            cleanup();
+            reject(new Error('Timed out loading shared wishes.'));
+        }, 10000);
+
+        document.head.appendChild(script);
+    });
+}
+
+function loadRSVPs() {
+    if (!CONFIG.rsvpEndpoint) {
+        renderRSVPs(getStoredRSVPs().reverse());
+        return;
+    }
+
+    loadSharedRSVPs().then((wishes) => {
+        sharedRSVPs = wishes;
+        renderRSVPs(sharedRSVPs);
+    }).catch((error) => {
+        console.error('Unable to load shared wishes:', error);
+        renderRSVPs([], 'Không tải được lời chúc. Vui lòng tải lại trang.');
+    });
+}
+
+function renderRSVPs(rsvps = getStoredRSVPs().reverse(), emptyText = 'Lời chúc của khách mời sẽ hiển thị tại đây.') {
     const wishList = document.getElementById('wishList');
     if (!wishList) return;
 
-    const wishes = getStoredRSVPs()
+    const wishes = rsvps
         .filter((rsvp) => rsvp && typeof rsvp.message === 'string' && rsvp.message.trim())
-        .reverse();
 
     wishList.replaceChildren();
 
     if (wishes.length === 0) {
         const emptyMessage = document.createElement('p');
         emptyMessage.className = 'wish-empty';
-        emptyMessage.textContent = 'Lời chúc của khách mời sẽ hiển thị tại đây.';
+        emptyMessage.textContent = emptyText;
         wishList.appendChild(emptyMessage);
         return;
     }
@@ -240,29 +350,6 @@ function renderRSVPs() {
         wishList.appendChild(card);
     });
 }
-
-// Optional: Send RSVP to server (uncomment and configure)
-/*
-async function sendRSVPToServer(data) {
-    try {
-        const response = await fetch('YOUR_BACKEND_URL/api/rsvp', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
-        
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        
-        console.log('RSVP sent to server successfully');
-    } catch (error) {
-        console.error('Error sending RSVP:', error);
-    }
-}
-*/
 
 // ============================================
 // GALLERY SLIDER
@@ -436,7 +523,8 @@ function shareInvitation() {
 // INITIALIZATION
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-    renderRSVPs();
+    loadRSVPs();
+    if (CONFIG.rsvpEndpoint) window.setInterval(loadRSVPs, 30000);
 
     // Add floating heart styles
     const style = document.createElement('style');

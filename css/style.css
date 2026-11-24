@@ -1309,6 +1309,14 @@ body {
     box-shadow: 0 5px 16px rgba(139, 111, 71, 0.2);
 }
 
+.rsvp-honeypot {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
 .wish-board {
     max-width: 500px;
     margin: 1rem auto 0;
